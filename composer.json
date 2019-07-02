@@ -10,7 +10,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Elite\\Plugins\\": "src/"
+      "Elite\\Plugins\\Devtool\\": "src/"
     }
   },
   "authors": [
