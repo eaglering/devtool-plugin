@@ -29,6 +29,9 @@ class SchemaLogic
     }
 
     public function alias ($alias) {
+        if (strpos($alias, '@app') === 0) {
+            return str_replace('@app', ROOT_DIR . '/src', $alias);
+        }
         if (strpos($alias, '@elite') === 0) {
             return str_replace('@elite', ROOT_DIR . '/src', $alias);
         }
@@ -53,17 +56,17 @@ class SchemaLogic
         if (!is_dir($template)) {
             throw new Exception("Template[{$template}] not found");
         }
-        if (strpos($path, '@elite/') === 0) {
-            $namespace = str_replace('/', '\\', str_replace('@elite', 'Elite', $path));
+        if ($path{0} === '@') {
+            $namespace = ucfirst(substr($path, 1));
+            $namespace = str_replace('/', '\\', $namespace);
         } else {
-            $namespace = 'Elite\\Common\\Model\\Entity';
+            $namespace = 'App\\Model\\Entity';
         }
         $path = $this->alias($path);
         if (!is_dir($path)) mkdir($path, 0777, true);
         $tables = $this->schemaDao->getTableSchema($tables);
         foreach ($tables as $table) {
             $this->generateEntity($path, $template, $table, $namespace);
-            die;
         }
     }
 

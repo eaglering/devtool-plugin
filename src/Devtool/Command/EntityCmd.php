@@ -44,7 +44,7 @@ class EntityCmd extends Command
         $this->setName('entity')->setDescription("Entity generator");
         $this->addArgument('pool', InputArgument::OPTIONAL, 'database db pool?', 'default');
         $this->addOption('table', 't', InputOption::VALUE_OPTIONAL|InputOption::VALUE_IS_ARRAY, 'database table name?', []);
-        $this->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'generate entity file path?', '@elite/Common/Model/Entity');
+        $this->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'generate entity file path?', '@app/Model/Entity');
         $this->addOption('template', 'a', InputOption::VALUE_OPTIONAL, '"generate entity template path?', '@devtool/resources');
     }
 
