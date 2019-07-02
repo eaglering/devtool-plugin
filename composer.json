@@ -1,0 +1,33 @@
+{
+  "require": {
+    "symfony/console": "^4.2",
+    "esd/esd-core": "~0.1",
+    "esd/mysql-plugin": "~0.1",
+    "text/template": "~2.3"
+  },
+  "require-dev": {
+    "esd/esd-co-server": "~0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Elite\\Plugins\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "elite",
+      "email": "442958506@qq.com",
+      "homepage": "https://github.com/elite-cloud"
+    }
+  ],
+  "name": "elite-cloud/devtool-plugin",
+  "version": "0.1.0",
+  "type": "library",
+  "keywords": [
+    "esd",
+    "swoole",
+    "plugins"
+  ],
+  "description": "devtool-plugin",
+  "license": "MIT"
+}
