@@ -6,6 +6,7 @@ use Elite\Plugins\Devtool\Model\Dao\SchemaDao;
 use Elite\Plugins\Devtool\Service\Grammar;
 use ESD\Core\Exception;
 use phpDocumentor\Reflection\Types\String_;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SchemaLogic
 {
@@ -18,14 +19,21 @@ class SchemaLogic
     protected $schemaDao;
 
     /**
+     * @var SymfonyStyle
+     */
+    protected $io;
+
+    /**
      * SchemaLogic constructor.
      * @param string $pool
+     * @param SymfonyStyle $io
      * @throws \ESD\Plugins\Mysql\MysqlException
      * @throws \ReflectionException
      */
-    public function __construct(string $pool)
+    public function __construct(string $pool, SymfonyStyle $io)
     {
         $this->schemaDao = new SchemaDao($pool);
+        $this->io = $io;
     }
 
     public function alias ($alias) {
@@ -48,10 +56,11 @@ class SchemaLogic
      * @param string $path
      * @param string $template
      * @param array $tables
+     * @param bool $confirm
      * @throws Exception
      * @throws \Exception
      */
-    public function create ($path = '', $template = '', array $tables = []) {
+    public function create ($path = '', $template = '', array $tables = [], $confirm = false) {
         $template = $this->alias($template);
         if (!is_dir($template)) {
             throw new Exception("Template[{$template}] not found");
@@ -66,8 +75,11 @@ class SchemaLogic
         if (!is_dir($path)) mkdir($path, 0777, true);
         $tables = $this->schemaDao->getTableSchema($tables);
         foreach ($tables as $table) {
-            $this->generateEntity($path, $template, $table, $namespace);
+            if ($confirm || $this->io->confirm("Generate table {$table['name']}?", true)) {
+                $this->generateEntity($path, $template, $table, $namespace);
+            }
         }
+        $this->io->success('Done!');
     }
 
     /**

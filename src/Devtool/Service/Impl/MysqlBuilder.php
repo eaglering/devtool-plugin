@@ -84,7 +84,7 @@ class MysqlBuilder
         array_walk($tables, function (&$table) {
             $table = trim($table);
             if (strpos($table, $this->mysqlConfig->getPrefix()) !== 0) {
-                $table = "`{$this->mysqlConfig->getPrefix()}{$table}`";
+                $table = "{$this->mysqlConfig->getPrefix()}{$table}";
             }
         });
         $query = $this->mysql
